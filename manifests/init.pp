@@ -1,6 +1,9 @@
 class softec_mysql (
+  $package_name     = 'mysql-server',
+  $package_ensure   = 'present',
   $root_password    = 'UNSET',
   $old_root_password= '',
+  $server_hostname  = 'localhost',
   $manage_service   = true,
   $restart          = 'UNSET',
   $monitoring_user  = false,
@@ -11,6 +14,7 @@ class softec_mysql (
   $runtime          = 'UNSET',
   $runtime_allowed  = 'UNSET',
   $nrpe_checks      = false,
+  $nrpe_host_monitor= 'localhost',
   $nrpe_user_checks = {},
 ) inherits softec_mysql::params {
 
@@ -42,6 +46,8 @@ class softec_mysql (
   }
 
   class {'mysql::server':
+    package_name      => $package_name,
+    package_ensure    => $package_ensure,
     root_password     => $root_password,
     old_root_password => $old_root_password,
     service_manage    => $manage_service,
@@ -50,6 +56,7 @@ class softec_mysql (
     runtime           => $real_runtime,
     runtime_variables => $runtime_allowed,
     purge_conf_dir    => true,
+    server_hostname   => $server_hostname,
   }
 
   if $monitoring_user {
@@ -75,7 +82,7 @@ class softec_mysql (
       }
 
       class {'softec_mysql::monitoring':
-        host        => 'localhost',
+        host        => $nrpe_host_monitor,
         port        => $check_port,
         user        => $monitoring_user,
         password    => $monitoring_pass,
