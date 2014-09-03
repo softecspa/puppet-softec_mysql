@@ -49,6 +49,7 @@ class softec_mysql (
     override_options  => $options,
     runtime           => $real_runtime,
     runtime_variables => $runtime_allowed,
+    purge_conf_dir    => true,
   }
 
   if $monitoring_user {

@@ -13,6 +13,12 @@ class softec_mysql::params {
       'skip_slave_start'            => false,
       'innodb_rollback_on_timeout'  => 'ON',
       'innodb_lock_wait_timeout'    => '120',
+    },
+    'mysqldump' => {
+      'quick' => false
+    },
+    'mysqld_safe' => {
+      'syslog'  => true
     }
   }
 
